@@ -1,0 +1,401 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Your Name – Your role, Your institution</title>
+  <meta name="description" content="Your Name is a [role] at [institution], working on [research area].">
+  <meta property="og:title" content="Your Name">
+  <meta property="og:description" content="Your role at your institution.">
+  <meta property="og:type" content="profile">
+
+  <!-- Fonts are optional: delete these three lines to fall back to system fonts. -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Spectral:wght@400;600;700&family=Instrument+Sans:wght@400;500;600&display=swap">
+
+  <style>
+    :root {
+      --bg: #f7f8fa;
+      --ink: #161b26;
+      --muted: #5b6475;
+      --line: #dadee6;
+      --light: #2457c5;   /* "light" peak colour: links and primary accent */
+      --heavy: #b3226b;   /* "heavy" peak colour: used sparingly */
+      --tag-bg: #e9ecf2;
+
+      --serif: "Spectral", Georgia, "Times New Roman", serif;
+      --sans: "Instrument Sans", system-ui, -apple-system, "Segoe UI", sans-serif;
+    }
+    @media (prefers-color-scheme: dark) {
+      :root {
+        --bg: #12151c;
+        --ink: #e8eaf0;
+        --muted: #9aa2b3;
+        --line: #272c38;
+        --light: #7fa3f2;
+        --heavy: #ec7fb0;
+        --tag-bg: #1c212c;
+      }
+    }
+
+    *, *::before, *::after { box-sizing: border-box; }
+    html { scroll-behavior: smooth; }
+    @media (prefers-reduced-motion: reduce) { html { scroll-behavior: auto; } }
+
+    body {
+      margin: 0;
+      background: var(--bg);
+      color: var(--ink);
+      font: 400 1.0625rem/1.65 var(--sans);
+      -webkit-font-smoothing: antialiased;
+    }
+    a { color: var(--light); text-underline-offset: 3px; }
+    a:focus-visible { outline: 2px solid var(--light); outline-offset: 3px; border-radius: 2px; }
+    .wrap { max-width: 46rem; margin: 0 auto; padding: 0 1.5rem; }
+    h1, h2, h3 { font-family: var(--serif); line-height: 1.2; margin: 0; }
+    h2 { font-size: 1.5rem; margin-bottom: 1.25rem; }
+    h3 { font-size: 1.1rem; }
+    p { margin: 0 0 1rem; }
+    section { padding: 3rem 0 0.5rem; }
+
+    /* ===== Top: name, role, links ===== */
+    .top { padding: 4.5rem 0 0; }
+    .top h1 { font-size: clamp(2.4rem, 7vw, 3.6rem); font-weight: 700; letter-spacing: -0.015em; }
+    .role { font-size: 1.15rem; color: var(--muted); margin: 0.6rem 0 1.5rem; }
+    .links { display: flex; flex-wrap: wrap; gap: 0.4rem 1.5rem; list-style: none; padding: 0; margin: 0; font-weight: 500; }
+
+    /* The one memorable element: a mass spectrum drawn as light/heavy peak pairs */
+    .spectrum { display: block; width: 100%; height: auto; margin-top: 2.5rem; }
+    .spectrum .base { stroke: var(--line); stroke-width: 1; }
+    .spectrum .noise { stroke: var(--line); stroke-width: 2; }
+    .spectrum .l { stroke: var(--light); stroke-width: 2.5; }
+    .spectrum .h { stroke: var(--heavy); stroke-width: 2.5; }
+
+    /* ===== Summary ===== */
+    #home p { max-width: 60ch; font-family: var(--serif); font-size: 1.15rem; line-height: 1.7; }
+
+    /* ===== Publications ===== */
+    ol.pubs { list-style: none; padding: 0; margin: 0; display: grid; gap: 1.5rem; }
+    ol.pubs li { display: grid; grid-template-columns: 4rem 1fr 7rem; gap: 1rem; }
+    .year { font-family: var(--serif); font-weight: 700; color: var(--muted); }
+    .pub-title { font-weight: 600; display: block; }
+    .pub-meta { color: var(--muted); font-size: 0.95rem; display: block; }
+    .pub-links { font-size: 0.92rem; margin-top: 0.2rem; display: block; }
+    .pub-links a { margin-right: 1rem; }
+    .me { color: var(--ink); font-weight: 600; }
+
+    /* ===== Projects ===== */
+    .projects { display: grid; gap: 2rem; }
+    .project h3 { margin-bottom: 0.3rem; }
+    .project p { color: var(--muted); max-width: 60ch; margin-bottom: 0.6rem; }
+    .tags { list-style: none; display: flex; flex-wrap: wrap; gap: 0.4rem; padding: 0; margin: 0 0 0.5rem; }
+    .tags li { background: var(--tag-bg); border-radius: 4px; padding: 0.1rem 0.55rem; font-size: 0.85rem; color: var(--muted); }
+
+    /* ===== CV: a real sequence, so a timeline ===== */
+    .cv-download { display: inline-block; margin-bottom: 1.75rem; font-weight: 600; }
+    dl.cv { margin: 0; display: grid; gap: 1.25rem; }
+    dl.cv > div { display: grid; grid-template-columns: 8rem 1fr; gap: 1rem; }
+    dl.cv dt { color: var(--muted); font-size: 0.95rem; padding-top: 0.15rem; }
+    dl.cv dd { margin: 0; }
+    dl.cv .where { color: var(--muted); display: block; font-size: 0.95rem; }
+    h3.cv-group { margin: 1.75rem 0 1rem; color: var(--heavy); font-size: 1rem; }
+
+    /* ===== Figures: placeholder box shows the expected file name until an image exists ===== */
+    .fig {
+      position: relative; overflow: hidden;
+      background: var(--tag-bg); border: 1px dashed var(--line); border-radius: 6px;
+      aspect-ratio: 4 / 3;
+      display: flex; align-items: center; justify-content: center; text-align: center;
+      padding: 0.5rem; color: var(--muted); font-size: 0.8rem; line-height: 1.3;
+    }
+    .fig::before { content: attr(data-label); }
+    .fig img {
+      position: absolute; inset: 0; width: 100%; height: 100%;
+      object-fit: cover; display: block; background: var(--bg);
+    }
+    .fig.wide { aspect-ratio: 16 / 9; }
+    .fig.portrait { aspect-ratio: 1 / 1; width: 9.5rem; }
+    .fig.thumb { aspect-ratio: 4 / 3; width: 7rem; }
+    figure.figure { margin: 1.75rem 0 0; }
+    figure.figure figcaption { color: var(--muted); font-size: 0.92rem; margin-top: 0.6rem; max-width: 60ch; }
+
+    .top-grid { display: flex; justify-content: space-between; align-items: flex-start; gap: 1.5rem; }
+    .project { display: grid; grid-template-columns: 11rem 1fr; column-gap: 1.25rem; }
+    .project .fig { grid-column: 1; grid-row: 1 / span 3; align-self: start; }
+    .project h3, .project p, .project .tags { grid-column: 2; }
+
+    /* ===== Tabs ===== */
+    .tabs {
+      position: sticky; top: 0; z-index: 5;
+      margin-top: 2rem; background: var(--bg);
+      border-bottom: 1px solid var(--line);
+    }
+    .tablist { display: flex; gap: 1.75rem; overflow-x: auto; scrollbar-width: none; }
+    .tablist::-webkit-scrollbar { display: none; }
+    .tablist button {
+      flex: none; background: none; border: 0; border-bottom: 3px solid transparent;
+      margin-bottom: -1px; padding: 0.9rem 0 0.7rem; cursor: pointer;
+      font: 600 1rem var(--sans); color: var(--muted);
+    }
+    .tablist button:hover { color: var(--ink); }
+    .tablist button[aria-selected="true"] { color: var(--ink); border-bottom-color: var(--light); }
+    .tablist button:focus-visible { outline: 2px solid var(--light); outline-offset: -2px; border-radius: 3px; }
+    .panel[hidden] { display: none; }
+    .panel:focus { outline: none; }
+    .panel { padding-top: 2.25rem; }
+
+    /* ===== Footer ===== */
+    footer { margin-top: 4rem; padding: 2rem 0 3rem; border-top: 1px solid var(--line); color: var(--muted); font-size: 0.95rem; }
+
+    @media (max-width: 560px) {
+      ol.pubs li, dl.cv > div { grid-template-columns: 1fr; gap: 0.1rem; }
+      ol.pubs li .fig.thumb { width: 100%; max-width: 14rem; margin-top: 0.6rem; }
+      .top-grid { flex-direction: column-reverse; }
+      .project { grid-template-columns: 1fr; }
+      .project .fig { grid-row: auto; grid-column: 1; margin-bottom: 0.75rem; max-width: 18rem; width: 100%; }
+      .project h3, .project p, .project .tags { grid-column: 1; }
+    }
+  </style>
+  <noscript>
+    <style>
+      .tabs { display: none; }
+      .panel[hidden] { display: block; }
+    </style>
+  </noscript>
+</head>
+
+<body>
+  <main class="wrap">
+
+    <!-- ========== TOP ========== -->
+    <header class="top">
+      <!--
+        FIGURES: every image on this page uses the same pattern. Set src to either
+        a file in assets/img/ (e.g. assets/img/portrait.jpg) or a full URL
+        (e.g. https://raw.githubusercontent.com/USERNAME/REPO/main/figs/fig1.png).
+        Until the image loads, the dashed box shows the expected file name.
+        Only reuse journal figures if the licence allows it (e.g. CC BY), and credit the source.
+      -->
+      <div class="top-grid">
+      <div>
+      <h1>Your Name</h1>
+      <p class="role">Your role, Your institution</p>
+      <ul class="links">
+        <li><a href="mailto:you@example.org">Email</a></li>
+        <li><a href="https://github.com/USERNAME">GitHub</a></li>
+        <li><a href="https://orcid.org/0000-0000-0000-0000">ORCID</a></li>
+        <li><a href="https://scholar.google.com/citations?user=ID">Google Scholar</a></li>
+        <li><a href="https://www.linkedin.com/in/USERNAME">LinkedIn</a></li>
+      </ul>
+      </div>
+
+      <!-- Portrait: square, about 600 x 600 px -->
+      <div class="fig portrait" data-label="Portrait: assets/img/portrait.jpg">
+        <img src="assets/img/portrait.jpg" alt="Portrait of Your Name" onerror="this.remove()">
+      </div>
+      </div>
+
+      <!-- Decorative mass spectrum: light (blue) and heavy (magenta) peak pairs -->
+      <svg class="spectrum" viewBox="0 0 600 84" role="img" aria-label="Decorative mass spectrum showing paired light and heavy peaks">
+        <line class="base" x1="0" y1="80" x2="600" y2="80"/>
+        <!-- background noise -->
+        <g class="noise">
+          <line x1="15" y1="80" x2="15" y2="74"/><line x1="62" y1="80" x2="62" y2="71"/>
+          <line x1="85" y1="80" x2="85" y2="75"/><line x1="140" y1="80" x2="140" y2="72"/>
+          <line x1="205" y1="80" x2="205" y2="73"/><line x1="272" y1="80" x2="272" y2="70"/>
+          <line x1="345" y1="80" x2="345" y2="74"/><line x1="415" y1="80" x2="415" y2="72"/>
+          <line x1="485" y1="80" x2="485" y2="75"/><line x1="560" y1="80" x2="560" y2="71"/>
+          <line x1="588" y1="80" x2="588" y2="76"/>
+        </g>
+        <!-- doublets -->
+        <g class="l">
+          <line x1="40" y1="80" x2="40" y2="58"/><line x1="110" y1="80" x2="110" y2="42"/>
+          <line x1="170" y1="80" x2="170" y2="64"/><line x1="240" y1="80" x2="240" y2="20"/>
+          <line x1="310" y1="80" x2="310" y2="50"/><line x1="380" y1="80" x2="380" y2="32"/>
+          <line x1="450" y1="80" x2="450" y2="56"/><line x1="520" y1="80" x2="520" y2="40"/>
+        </g>
+        <g class="h">
+          <line x1="47" y1="80" x2="47" y2="60"/><line x1="117" y1="80" x2="117" y2="46"/>
+          <line x1="177" y1="80" x2="177" y2="62"/><line x1="247" y1="80" x2="247" y2="28"/>
+          <line x1="317" y1="80" x2="317" y2="47"/><line x1="387" y1="80" x2="387" y2="36"/>
+          <line x1="457" y1="80" x2="457" y2="58"/><line x1="527" y1="80" x2="527" y2="42"/>
+        </g>
+      </svg>
+    </header>
+
+    <!-- ========== TABS ========== -->
+    <nav class="tabs" aria-label="Page sections">
+      <div class="tablist" role="tablist">
+        <button type="button" role="tab" id="tab-home" aria-controls="home" aria-selected="true">Home</button>
+        <button type="button" role="tab" id="tab-publications" aria-controls="publications" aria-selected="false" tabindex="-1">Publications</button>
+        <button type="button" role="tab" id="tab-projects" aria-controls="projects" aria-selected="false" tabindex="-1">Projects</button>
+        <button type="button" role="tab" id="tab-cv" aria-controls="cv" aria-selected="false" tabindex="-1">CV</button>
+      </div>
+    </nav>
+
+    <!-- ========== HOME (summary + featured figure) ========== -->
+    <section id="home" class="panel" role="tabpanel" aria-labelledby="tab-home" tabindex="0">
+      <h2>Summary</h2>
+      <p>[Two or three sentences introducing who you are, where you work and what your research is about.]</p>
+      <p>[Add one or two sentences on the biological questions you care about and what you’re working on now.]</p>
+
+      <!-- Featured figure: workflow schematic, key result or lab photo, about 1600 x 900 px -->
+      <figure class="figure">
+        <div class="fig wide" data-label="Featured figure: assets/img/featured.png">
+          <img src="assets/img/featured.png" alt="Describe the figure for screen readers" loading="lazy" onerror="this.remove()">
+        </div>
+        <figcaption>Figure caption: one sentence on what the figure shows. Credit or source URL if not your own.</figcaption>
+      </figure>
+    </section>
+
+    <!-- ========== PUBLICATIONS ========== -->
+    <section id="publications" class="panel" role="tabpanel" aria-labelledby="tab-publications" tabindex="0" hidden>
+      <h2>Publications</h2>
+      <ol class="pubs">
+        <li>
+          <span class="year">2025</span>
+          <div>
+            <span class="pub-title">Title of your most recent paper</span>
+            <span class="pub-meta"><span class="me">Y. Surname</span>, Coauthor B, Coauthor C. <em>Journal Name</em> 00, 000–000.</span>
+            <span class="pub-links"><a href="https://doi.org/DOI">DOI</a><a href="#">PDF</a><a href="#">Data (PRIDE)</a></span>
+          </div>
+          <div class="fig thumb" data-label="assets/img/pub-2025.png">
+            <img src="assets/img/pub-2025.png" alt="Graphical abstract or key figure of the 2025 paper" loading="lazy" onerror="this.remove()">
+          </div>
+        </li>
+        <li>
+          <span class="year">2024</span>
+          <div>
+            <span class="pub-title">Title of another paper</span>
+            <span class="pub-meta">Coauthor A, <span class="me">Y. Surname</span>, Coauthor C. <em>Journal Name</em> 00, 000–000.</span>
+            <span class="pub-links"><a href="https://doi.org/DOI">DOI</a></span>
+          </div>
+          <div class="fig thumb" data-label="assets/img/pub-2024.png">
+            <img src="assets/img/pub-2024.png" alt="Graphical abstract or key figure of the 2024 paper" loading="lazy" onerror="this.remove()">
+          </div>
+        </li>
+        <li>
+          <span class="year">Preprint</span>
+          <div>
+            <span class="pub-title">Title of a preprint</span>
+            <span class="pub-meta"><span class="me">Y. Surname</span>, Coauthor B. <em>bioRxiv</em>.</span>
+            <span class="pub-links"><a href="https://doi.org/DOI">bioRxiv</a></span>
+          </div>
+          <div class="fig thumb" data-label="assets/img/preprint.png">
+            <img src="assets/img/preprint.png" alt="Key figure of the preprint" loading="lazy" onerror="this.remove()">
+          </div>
+        </li>
+      </ol>
+      <p style="margin-top:1.25rem"><a href="https://scholar.google.com/citations?user=ID">Full list on Google Scholar</a></p>
+    </section>
+
+    <!-- ========== PROJECTS ========== -->
+    <section id="projects" class="panel" role="tabpanel" aria-labelledby="tab-projects" tabindex="0" hidden>
+      <h2>Projects</h2>
+      <div class="projects">
+        <article class="project">
+          <div class="fig" data-label="assets/img/project-one.png">
+            <img src="assets/img/project-one.png" alt="Screenshot or figure for project one" loading="lazy" onerror="this.remove()">
+          </div>
+          <h3><a href="https://github.com/USERNAME/project-one">Project one</a></h3>
+          <p>One or two sentences on what it is and what problem it solves.</p>
+          <ul class="tags"><li>Tag</li><li>Tag</li><li>Tag</li></ul>
+        </article>
+        <article class="project">
+          <div class="fig" data-label="assets/img/project-two.png">
+            <img src="assets/img/project-two.png" alt="Screenshot or figure for project two" loading="lazy" onerror="this.remove()">
+          </div>
+          <h3><a href="https://github.com/USERNAME/project-two">Project two</a></h3>
+          <p>One or two sentences on what it is and what problem it solves.</p>
+          <ul class="tags"><li>Tag</li><li>Tag</li></ul>
+        </article>
+        <article class="project">
+          <div class="fig" data-label="assets/img/project-three.png">
+            <img src="assets/img/project-three.png" alt="Screenshot or figure for project three" loading="lazy" onerror="this.remove()">
+          </div>
+          <h3><a href="https://github.com/USERNAME/project-three">Project three</a></h3>
+          <p>One or two sentences on what it is and what problem it solves.</p>
+          <ul class="tags"><li>Tag</li><li>Tag</li></ul>
+        </article>
+      </div>
+    </section>
+
+    <!-- ========== CV ========== -->
+    <section id="cv" class="panel" role="tabpanel" aria-labelledby="tab-cv" tabindex="0" hidden>
+      <h2>CV</h2>
+      <a class="cv-download" href="cv/CV.pdf">Download full CV (PDF)</a>
+
+      <h3 class="cv-group">Positions</h3>
+      <dl class="cv">
+        <div>
+          <dt>20XX – present</dt>
+          <dd>Your position<span class="where">Institution, City</span></dd>
+        </div>
+        <div>
+          <dt>20XX – 20XX</dt>
+          <dd>Previous position<span class="where">Institution, City</span></dd>
+        </div>
+      </dl>
+
+      <h3 class="cv-group">Education</h3>
+      <dl class="cv">
+        <div>
+          <dt>20XX – 20XX</dt>
+          <dd>PhD / MSc / BSc in Subject<span class="where">University, City</span></dd>
+        </div>
+      </dl>
+    </section>
+
+  </main>
+
+  <footer>
+    <div class="wrap">
+      <p>Your Name. Get in touch: <a href="mailto:you@example.org">you@example.org</a></p>
+    </div>
+  </footer>
+  <script>
+    // Tabs: panel ids double as URL hashes (#home, #publications, #projects, #cv),
+    // so a tab can be linked to directly and survives a page reload.
+    (function () {
+      var bar = document.querySelector('.tabs');
+      var tabs = Array.prototype.slice.call(document.querySelectorAll('.tablist [role="tab"]'));
+      var ids = tabs.map(function (t) { return t.getAttribute('aria-controls'); });
+
+      function show(id, moveFocus) {
+        if (ids.indexOf(id) === -1) id = ids[0];
+        tabs.forEach(function (t) {
+          var on = t.getAttribute('aria-controls') === id;
+          t.setAttribute('aria-selected', on ? 'true' : 'false');
+          t.tabIndex = on ? 0 : -1;
+          document.getElementById(t.getAttribute('aria-controls')).hidden = !on;
+          if (on && moveFocus) t.focus();
+        });
+      }
+
+      function select(id, moveFocus) {
+        show(id, moveFocus);
+        history.replaceState(null, '', '#' + id);
+        // If the reader has scrolled down, bring the new tab's content back to the top
+        var barTop = bar.getBoundingClientRect().top + window.scrollY;
+        if (window.scrollY > barTop) window.scrollTo(0, barTop);
+      }
+
+      tabs.forEach(function (t, i) {
+        t.addEventListener('click', function () { select(t.getAttribute('aria-controls')); });
+        t.addEventListener('keydown', function (e) {
+          var next = null;
+          if (e.key === 'ArrowRight') next = (i + 1) % tabs.length;
+          else if (e.key === 'ArrowLeft') next = (i - 1 + tabs.length) % tabs.length;
+          else if (e.key === 'Home') next = 0;
+          else if (e.key === 'End') next = tabs.length - 1;
+          if (next !== null) { e.preventDefault(); select(ids[next], true); }
+        });
+      });
+
+      window.addEventListener('hashchange', function () { show(location.hash.slice(1)); });
+      show(location.hash.slice(1));
+    })();
+  </script>
+</body>
+</html>
